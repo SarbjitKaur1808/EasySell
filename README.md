@@ -8,3 +8,10 @@
    - To run the application for development, run ``` yarn dev ```
 4. Open [localhost:3000](http://localhost:3000/) in the browser
 ----
+
+####  How to use git 
+git clone https://github.com/SarbjitKaur1808/EasySell.git
+git branch (To see all branches)
+git branch yourbranchname (To Create Branch)
+git checkout yourbranchname (To visit your branch)
+git push origin yourbranchname (To push your branch to git)
