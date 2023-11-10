@@ -15,3 +15,4 @@
 - git branch yourbranchname (To Create Branch)
 - git checkout yourbranchname (To visit your branch)
 - git push origin yourbranchname (To push your branch to git)
+- git fetch origin main (To fetch changes from main)
