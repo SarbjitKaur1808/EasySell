@@ -48,13 +48,13 @@ UserSchema.path('hashed_password').validate(function (v) {
     }
 }, null)
 
-UserSchema.method = {
+UserSchema.methods = {
     authenticate: function (plainText) {
         return this.encryptPassword(plainText) == this.hashed_password
     },
 
     encryptPassword: function (password) {
-        if (!password) return ''
+        if (!password) return '';
 
         try {
             return crypto
@@ -68,8 +68,8 @@ UserSchema.method = {
     },
 
     makeSalt: function () {
-        return Math.round(new Date().valueOf() * Math.random()) + ''
+        return Math.round(new Date().valueOf() * Math.random()) + '';
     }
-}
+};
 
 export default mongoose.model('User', UserSchema);
