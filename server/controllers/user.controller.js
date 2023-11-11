@@ -39,28 +39,6 @@ const create = async (req, res) => {
       error: errorHandler.getErrorMessage(err) || 'Could not create user'
     });
   }
-
-  // Create a new user if the email is not in use
-  const user = new User(req.body);
-  await user.save();
-
-  // Generate a token for the newly created user
-  const token = jwt.sign({ _id: user._id }, config.jwtSecret);
-
-  // Set the token as a cookie
-  res.cookie('t', token, { expire: new Date() + 999 });
-
-  // Return user information and token in the response
-  return res.json({
-    token,
-    user: {
-      _id: user._id,
-      name: user.name,
-      email: user.email
-    }
-  });
-} catch (err) {
-  return res.status(400).json({ error: 'Could not create user' });
 };
 
 
