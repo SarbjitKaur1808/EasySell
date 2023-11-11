@@ -1,20 +1,8 @@
 import User from '../models/user.model.js';
 import errorHandler from '../helpers/dbErrorHandler.js';
+import jwt from 'jsonwebtoken';
+import config from '../../config/config.js';
 
-// const signup = async (req, res) => {
-//     try {
-//         const user = new User(req.body);
-//         await user.save();
-
-//         // Omit sensitive information like password before sending the user object in the response
-//         user.hashed_password = undefined;
-//         user.salt = undefined;
-
-//         return res.status(201).json({ user });
-//     } catch (err) {
-//         return res.status(400).json({ error: err.message });
-//     }
-// }
 
 const create = async (req, res) => {
   try {
@@ -45,10 +33,35 @@ const create = async (req, res) => {
       }
     });
   } catch (err) {
-    return res.status(400).json({ error: 'Could not create user' });
-  }
-};
+    console.error(err); // Log the error for debugging
 
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err) || 'Could not create user'
+    });
+  }
+
+  // Create a new user if the email is not in use
+  const user = new User(req.body);
+  await user.save();
+
+  // Generate a token for the newly created user
+  const token = jwt.sign({ _id: user._id }, config.jwtSecret);
+
+  // Set the token as a cookie
+  res.cookie('t', token, { expire: new Date() + 999 });
+
+  // Return user information and token in the response
+  return res.json({
+    token,
+    user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email
+    }
+  });
+} catch (err) {
+  return res.status(400).json({ error: 'Could not create user' });
+};
 
 
 const update = async (req, res) => {
