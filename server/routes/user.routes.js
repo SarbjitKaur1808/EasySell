@@ -7,5 +7,5 @@ const router = express.Router();
 router.post('/signup', userController.signup);
 router.param('userId', userController.getUserById)
 router.get('/users/:userId',userController.getUserById);
-router.put('/update/:userId', userController.update);
+router.put('/users/:userId', userController.update);
 export default router;
