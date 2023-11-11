@@ -3,33 +3,6 @@ import jwt from 'jsonwebtoken'
 // import expressJwt from 'express-jwt';
 import config from '../../config/config.js'
 
-
-
-const signup = async (req, res) => {
-    try {
-        const user = new User(req.body);
-        await user.save();
-
-        // Generate a token for the newly created user
-        const token = jwt.sign({ _id: user._id }, config.jwtSecret);
-
-        // Set the token as a cookie
-        res.cookie('t', token, { expire: new Date() + 999 });
-
-        // Return user information and token in the response
-        return res.json({
-            token,
-            user: {
-                _id: user._id,
-                name: user.name,
-                email: user.email
-            }
-        });
-    } catch (err) {
-        return res.status(400).json({ error: 'Could not create user' });
-    }
-};
-
 const signin = async (req, res) => {
     try {
         let user = await User.findOne({ "email": req.body.email })
@@ -84,4 +57,4 @@ const hasAuthorization = (req, res, next) => {
     next();
 };
 
-export default { signin, signout, requireSignin, hasAuthorization,signup };
+export default { signin, signout, requireSignin, hasAuthorization};
