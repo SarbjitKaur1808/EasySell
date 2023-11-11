@@ -16,20 +16,40 @@ import errorHandler from '../helpers/dbErrorHandler.js';
 //     }
 // }
 
-const create = async (req, res) => { 
-	console.log(req.body);
-const user = new User(req.body) 
-try {
-await user.save()
-return res.status(200).json({ 
-message: "Successfully signed up!"
-})
-} catch (err) {
-return res.status(400).json({
-error: errorHandler.getErrorMessage(err) 
-})
-} 
-}
+const create = async (req, res) => {
+    try {
+        // Check if the email already exists
+        const existingUser = await User.findOne({ email: req.body.email });
+
+        if (existingUser) {
+            return res.status(400).json({ error: 'Email already exists' });
+        }
+
+        // Create a new user if the email is not in use
+        const user = new User(req.body);
+        await user.save();
+
+        // Generate a token for the newly created user
+        const token = jwt.sign({ _id: user._id }, config.jwtSecret);
+
+        // Set the token as a cookie
+        res.cookie('t', token, { expire: new Date() + 999 });
+
+        // Return user information and token in the response
+        return res.json({
+            token,
+            user: {
+                _id: user._id,
+                name: user.name,
+                email: user.email
+            }
+        });
+    } catch (err) {
+        return res.status(400).json({ error: 'Could not create user' });
+    }
+};
+
+
 
 const update = async (req, res) => { 
     try {
