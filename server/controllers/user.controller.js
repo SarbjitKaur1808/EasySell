@@ -1,18 +1,33 @@
 import User from '../models/user.model.js';
 
-const signup = async (req, res) => {
-    try {
-        const user = new User(req.body);
-        await user.save();
+// const signup = async (req, res) => {
+//     try {
+//         const user = new User(req.body);
+//         await user.save();
 
-        // Omit sensitive information like password before sending the user object in the response
-        user.hashed_password = undefined;
-        user.salt = undefined;
+//         // Omit sensitive information like password before sending the user object in the response
+//         user.hashed_password = undefined;
+//         user.salt = undefined;
 
-        return res.status(201).json({ user });
-    } catch (err) {
-        return res.status(400).json({ error: err.message });
-    }
+//         return res.status(201).json({ user });
+//     } catch (err) {
+//         return res.status(400).json({ error: err.message });
+//     }
+// }
+
+const create = async (req, res) => { 
+	console.log(req.body);
+const user = new User(req.body) 
+try {
+await user.save()
+return res.status(200).json({ 
+message: "Successfully signed up!"
+})
+} catch (err) {
+return res.status(400).json({
+error: errorHandler.getErrorMessage(err) 
+})
+} 
 }
 
 const update = async (req, res) => { 
@@ -47,4 +62,4 @@ const getUserById = async (req, res, next, id) => {
   }
 };
 
-export default { signup, getUserById, update };
+export default { create, getUserById, update };
