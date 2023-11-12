@@ -58,21 +58,22 @@ const update = async (req, res) => {
   }
 };
 
-const getUserById = async (req, res, next, id) => {
+const getUserById = async (req, res) => {
   try {
-    let user = await User.findById(id);
-    if (!user)
-      return res.status("400").json({
+    let user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(400).json({
         error: "User not found",
       });
-    req.profile = user;
-    next();
+    }
+    res.json(user);
   } catch (err) {
-    return res.status("400").json({
+    return res.status(400).json({
       error: "Could not retrieve user",
     });
   }
 };
+
 
 const list = async (req, res) => {
   try {
