@@ -9,4 +9,6 @@ router.param('userId', userController.getUserById)
 router.get('/users/:userId', userController.getUserById);
 router.get('/users', userController.list);
 router.put('/users/:userId', userController.update);
+
+router.delete('/user/:userId', userController.remove);
 export default router;
