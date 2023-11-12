@@ -4,8 +4,9 @@ import userController from '../controllers/user.controller.js';
 const router = express.Router();
 
 // Define routes
-router.post('/signup', userController.signup);
+router.post('/users/signup', userController.create);
 router.param('userId', userController.getUserById)
-router.get('/users/:userId',userController.getUserById);
+router.get('/users/:userId', userController.getUserById);
+router.get('/users', userController.list);
 router.put('/users/:userId', userController.update);
 export default router;
