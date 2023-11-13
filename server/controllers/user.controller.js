@@ -90,25 +90,6 @@ const list = async (req, res) => {
   }
 }
 
-<<<<<<< HEAD
-const remove = async (req, res) => {
-  try {
-    let user = req.profile; // Assuming req.profile is the user to be deleted, set by getUserById middleware
-    let deletedUser = await user.deleteOne();
-    //let deletedUser = await user.remove();
-    deletedUser.hashed_password = undefined;
-    deletedUser.salt = undefined;
-    res.json(deletedUser);
-  } catch (err) {
-    return res.status(400).json({
-      error: errorHandler.getErrorMessage(err)
-    });
-  }
-};
-
-
-export default { create, getUserById, update, list, remove };
-=======
 // Removes a user
 const remove = async (req, res) => {
   try {
@@ -125,4 +106,3 @@ const remove = async (req, res) => {
 }
 
 export default { create, getUserById, update, list, read, remove };
->>>>>>> 89f03b00f0146d7c62da22434ad58442bc42d262
