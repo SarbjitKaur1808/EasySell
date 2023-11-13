@@ -90,7 +90,7 @@ const list = async (req, res) => {
   }
 }
 
-// Removes a user
+// Removes a user, tested
 const remove = async (req, res) => {
   try {
     let user = req.profile
