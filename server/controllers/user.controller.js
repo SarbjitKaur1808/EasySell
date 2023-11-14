@@ -3,7 +3,7 @@ import errorHandler from '../helpers/dbErrorHandler.js';
 import jwt from 'jsonwebtoken';
 import config from '../../config/config.js';
 
-
+// Handles user creation
 const create = async (req, res) => {
   try {
     // Check if the email already exists
@@ -41,11 +41,25 @@ const create = async (req, res) => {
   }
 };
 
+// Fetches a user by ID and sets it to req.profile
+const getUserById = async (req, res, next, id) => {
+  try {
+    let user = await User.findById(id);
+    if (!user) {
+      return res.status(400).json({ error: "User not found" });
+    }
+    req.profile = user;
+    next();
+  } catch (err) {
+    return res.status(400).json({ error: errorHandler.getErrorMessage(err) });
+  }
+};
 
+// Updates user details
 const update = async (req, res) => {
   try {
     let user = req.profile
-    user = extend(user, req.body)
+    Object.assign(user, req.body);
     user.updated = Date.now()
     await user.save()
     user.hashed_password = undefined
@@ -58,22 +72,13 @@ const update = async (req, res) => {
   }
 };
 
-const getUserById = async (req, res, next, id) => {
-  try {
-    let user = await User.findById(id);
-    if (!user)
-      return res.status("400").json({
-        error: "User not found",
-      });
-    req.profile = user;
-    next();
-  } catch (err) {
-    return res.status("400").json({
-      error: "Could not retrieve user",
-    });
-  }
+// Sends user data in response
+const read = (req, res) => {
+  req.profile.hashed_password = undefined;
+  req.profile.salt = undefined;
+  return res.json(req.profile);
 };
-
+// Lists all users
 const list = async (req, res) => {
   try {
     let userlist = await User.find().select('name email created updated')
@@ -85,4 +90,19 @@ const list = async (req, res) => {
   }
 }
 
-export default { create, getUserById, update, list };
+// Removes a user, tested
+const remove = async (req, res) => {
+  try {
+    let user = req.profile
+    let deletedUser = await user.deleteOne()
+    deletedUser.hashed_password = undefined
+    deletedUser.salt = undefined
+    res.json(deletedUser)
+  } catch (err) {
+    return res.status(400).json({
+      error: errorHandler.getErrorMessage(err)
+    })
+  }
+}
+
+export default { create, getUserById, update, list, read, remove };
