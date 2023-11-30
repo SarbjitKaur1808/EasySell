@@ -1,7 +1,7 @@
 import Product from '../models/product.model.js'
 import extend from 'lodash/extend.js'
 import errorHandler from './../helpers/dbErrorHandler.js'
-import formidable from 'formidable'
+//import formidable from 'formidable'
 import fs from 'fs'
 //import defaultImage from './../../client/assets/images/default.png'
 
