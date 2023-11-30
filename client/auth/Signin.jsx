@@ -9,6 +9,7 @@ import {
   Icon
 } from "@material-ui/core";
 import { signin } from "./api-auth.js";
+import { list } from '../product/api-product.js'; // Import the list function from api-product.js
 
 export default function Signin(props) {
   const [values, setValues] = useState({
@@ -16,9 +17,20 @@ export default function Signin(props) {
     password: "",
     error: "",
   });
+  const [products, setProducts] = useState([]); // State to store products
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
+  };
+
+  const loadProducts = () => {
+    list().then(data => {
+      if (data.error) {
+        console.log(data.error);
+      } else {
+        setProducts(data);
+      }
+    });
   };
 
   const clickSubmit = () => {
@@ -28,16 +40,11 @@ export default function Signin(props) {
     };
 
     signin(user).then((data) => {
-
-      console.log("data",data)
-      if (data == undefined) {
-        return;
-      }
-
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
         setValues({ ...values, error: "" });
+        loadProducts(); // Load products on successful sign-in
       }
     });
   };
@@ -45,16 +52,16 @@ export default function Signin(props) {
   return (
     <Card>
       <CardContent>
-        <Typography>Sign In</Typography>
+        <Typography variant="h5">Sign In</Typography>
         <TextField
           id="email"
           type="email"
           label="Email"
-          value={values.Email}
+          value={values.email}
           onChange={handleChange("email")}
           margin="normal"
+          fullWidth
         />
-        <br />
         <TextField
           id="password"
           type="password"
@@ -62,8 +69,8 @@ export default function Signin(props) {
           value={values.password}
           onChange={handleChange("password")}
           margin="normal"
+          fullWidth
         />
-        <br />
         {values.error && (
           <Typography component="p" color="error">
             <Icon color="error">error</Icon>
@@ -72,10 +79,28 @@ export default function Signin(props) {
         )}
       </CardContent>
       <CardActions>
-        <Button color="primary" variant="contained" onClick={clickSubmit}>
+        <Button color="primary" variant="contained" onClick={clickSubmit} fullWidth>
           Submit
         </Button>
       </CardActions>
+
+      {/* Display Products */}
+      {products.length > 0 && (
+        <div>
+          <Typography variant="h6">Products</Typography>
+          {products.map(product => (
+            <Card key={product._id} style={{ margin: '10px' }}>
+              <CardContent>
+              <Typography variant="h5">{product.name}</Typography>
+                <Typography variant="body2">{product.description}</Typography>
+
+                {product.image && <img src={product.image} alt={product.name} style={{ maxWidth: '100%', height: 'auto' }} />}
+                
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      )}
     </Card>
   );
 }
