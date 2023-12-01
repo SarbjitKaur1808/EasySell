@@ -8,6 +8,7 @@ import Template from '../template.js'
 import path from 'path'
 import authRoutes from './routes/auth.routes.js'
 import userRoutes from './routes/user.routes.js'
+import productRoutes from './routes/product.routes.js'
 
 const app = express()
 const CURRENT_WORKING_DIR = process.cwd()
