@@ -33,4 +33,3 @@ const ProductSchema = new mongoose.Schema({
 })
 
 export default mongoose.model('products', ProductSchema)
->>>>>>> 3f1dd50c872142d195dfb70330676b440b1c4dd3

@@ -1,11 +1,7 @@
 import Product from '../models/product.model.js'
 import extend from 'lodash/extend.js'
 import errorHandler from './../helpers/dbErrorHandler.js'
-<<<<<<< HEAD
-//import formidable from 'formidable'
-=======
 import formidable from 'formidable'
->>>>>>> 3f1dd50c872142d195dfb70330676b440b1c4dd3
 import fs from 'fs'
 //import defaultImage from './../../client/assets/images/default.png'
 
@@ -215,4 +211,3 @@ export default {
     decreaseQuantity,
     increaseQuantity
 }
->>>>>>> 3f1dd50c872142d195dfb70330676b440b1c4dd3
