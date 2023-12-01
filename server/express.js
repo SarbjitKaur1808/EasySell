@@ -20,8 +20,14 @@ app.get('/', (req, res) => {
 app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+<<<<<<< HEAD
+app.use('/',authRoutes)
+app.use('/',userRoutes)
+app.use('/',productRoutes)
+=======
 app.use('/', authRoutes)
 app.use('/', userRoutes)
+>>>>>>> 3f1dd50c872142d195dfb70330676b440b1c4dd3
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())
