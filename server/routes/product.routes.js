@@ -6,8 +6,8 @@ import authCtrl from '../controllers/auth.controller.js'
 const router = express.Router()
 
 
-router.route('/api/products/latest')
-  .get(productCtrl.listLatest)
+ router.route('/api/products/latest')
+   .get(productCtrl.listLatest)
 
 router.route('/api/products/related/:productId')
   .get(productCtrl.listRelated)

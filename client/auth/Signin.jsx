@@ -9,10 +9,10 @@ import {
   makeStyles,
   Icon
 } from "@material-ui/core";
-import { signin } from "./api-auth.js"; // Ensure this path is correct
-import { list } from '../product/api-product.js'; // Ensure this path is correct
-import { Redirect } from 'react-router-dom';
-import auth from './../auth/auth-helper'; // Ensure this path is correct
+import { signin } from "./api-auth.js"; 
+import { list } from '../product/api-product.js'; 
+//import { Redirect } from 'react-router-dom';
+import auth from './../auth/auth-helper'; 
 
 const useStyles = makeStyles(theme => ({
   card: {
