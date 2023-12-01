@@ -7,6 +7,8 @@ import Menu from "./core/Menu";
 import Profile from "./user/Profile";
 import EditProfile from './user/EditProfile';
 import PrivateRoute from './auth/PrivateRoute';
+import Cart from './cart/Cart';
+
 
 const MainRouter = () => {
   return (
@@ -18,6 +20,8 @@ const MainRouter = () => {
         <Route path="/signin" component={Signin} />
         <PrivateRoute path="/user/edit/:userId" component={EditProfile}/>
         <Route path="/user/:userId" component={Profile} />
+        <Route path="/cart" component={Cart}/>
+        
       </Switch>
     </div>
   );
