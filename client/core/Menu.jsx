@@ -42,9 +42,9 @@ const Menu = withRouter(({ history }) => (
             <HomeIcon />
           </IconButton>
         </Link>
-        {/* <Link to="/shops/all">
+        <Link to="/shops/all">
           <Button style={isActive(history, "/shops/all")}>All Shops</Button>
-        </Link> */}
+        </Link>
         {/* <Link to="/cart">
           <Button style={isActive(history, "/cart")}>
             Cart
