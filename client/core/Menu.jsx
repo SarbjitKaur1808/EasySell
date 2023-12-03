@@ -11,9 +11,9 @@ import auth from "./../auth/auth-helper";
 import { Link, withRouter } from "react-router-dom";
 import { WebLogo } from "../assets/images/images.js";
 
-import CartIcon from '@material-ui/icons/ShoppingCart'
-import Badge from '@material-ui/core/Badge'
-import cart from './../cart/cart-helper'
+import CartIcon from "@material-ui/icons/ShoppingCart";
+import Badge from "@material-ui/core/Badge";
+import cart from "./../cart/cart-helper";
 
 const isActive = (history, path) => {
   if (history.location.pathname == path) return { color: "#bef67a" };
@@ -49,14 +49,20 @@ const Menu = withRouter(({ history }) => (
         <Link to="/shops/all">
           <Button style={isActive(history, "/shops/all")}>All Shops</Button>
         </Link>
-         <Link to="/cart">
+        <Link to="/cart">
           <Button style={isActive(history, "/cart")}>
             Cart
-            <Badge color="secondary" invisible={false} badgeContent={cart.itemTotal()} style={{'marginLeft': '7px'}}>
+            <Badge
+              color="secondary"
+              invisible={false}
+              badgeContent={cart.itemTotal()}
+              style={{ marginLeft: "7px" }}
+              overlap="rectangular"
+            >
               <CartIcon />
             </Badge>
           </Button>
-        </Link>       
+        </Link>
       </div>
       <div style={{ position: "absolute", right: "10px" }}>
         <span style={{ float: "right" }}>
@@ -72,10 +78,10 @@ const Menu = withRouter(({ history }) => (
           )}
           {auth.isAuthenticated() && (
             <span>
-              {auth.isAuthenticated().user.seller && (
+              {auth.isAuthenticated().user && (
                 <Link to="/seller/shops">
                   <Button style={isPartActive(history, "/seller/")}>
-                    My Shops
+                    SELL
                   </Button>
                 </Link>
               )}

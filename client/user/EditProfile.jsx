@@ -154,7 +154,7 @@ export default function EditProfile({ match }) {
           onChange={handleChange("password")}
           margin="normal"
         />
-        <Typography variant="subtitle1" className={classes.subheading}>
+        {/* <Typography variant="subtitle1" className={classes.subheading}>
           Seller Account
         </Typography>
         <FormControlLabel
@@ -169,7 +169,7 @@ export default function EditProfile({ match }) {
             />
           }
           label={values.seller ? "Active" : "Inactive"}
-        />
+        /> */}
         <br />{" "}
         {values.error && (
           <Typography component="p" color="error">

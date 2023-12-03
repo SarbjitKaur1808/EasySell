@@ -173,7 +173,7 @@ export default function EditShop({ match }) {
                 id="multiline-flexible"
                 label="Description"
                 multiline
-                rows="3"
+                minRows="3"
                 value={values.description}
                 onChange={handleChange("description")}
                 className={classes.textField}
