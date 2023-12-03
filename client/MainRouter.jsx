@@ -15,6 +15,7 @@ import EditShop from "./shop/EditShop";
 import NewProduct from "./product/NewProduct";
 import EditProduct from "./product/EditProduct";
 import Product from "./product/Product";
+//import Cart from './cart/Cart'
 
 const MainRouter = () => {
   return (
@@ -26,6 +27,8 @@ const MainRouter = () => {
         <Route path="/signin" component={Signin} />
         <PrivateRoute path="/user/edit/:userId" component={EditProfile} />
         <Route path="/user/:userId" component={Profile} />
+
+        {/*<Route path="/cart" component={Cart}/>*/}
 
         <Route path="/product/:productId" component={Product} />
 
