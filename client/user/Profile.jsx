@@ -11,10 +11,10 @@ import {
   IconButton,
   Button,
   Typography,
-  Divider
+  Divider,
 } from "@material-ui/core";
 import { Edit, Person } from "@material-ui/icons";
-import DeleteUser from './DeleteUser.jsx'
+import DeleteUser from "./DeleteUser.jsx";
 import auth from "./../auth/auth-helper";
 import { read } from "./api-user.js";
 import { Redirect, Link } from "react-router-dom";
@@ -23,12 +23,18 @@ import { Redirect, Link } from "react-router-dom";
 // import MyOrders from './../order/MyOrders'
 
 const useStyles = makeStyles((theme) => ({
-  root: theme.mixins.gutters({
+  root: {
     maxWidth: 600,
     margin: "auto",
     padding: theme.spacing(3),
     marginTop: theme.spacing(5),
-  }),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
+    },
+  },
   title: {
     margin: `${theme.spacing(3)}px 0 ${theme.spacing(2)}px`,
     color: theme.palette.protectedTitle,
@@ -58,7 +64,7 @@ export default function Profile({ match }) {
       { t: jwt.token },
       signal
     ).then((data) => {
-      console.log(data)
+      console.log(data);
       if (data && data.error) {
         setRedirectToSignin(true);
       } else {
@@ -95,7 +101,7 @@ export default function Profile({ match }) {
                     <Edit />
                   </IconButton>
                 </Link>
-                <DeleteUser userId={user._id}/>
+                <DeleteUser userId={user._id} />
               </ListItemSecondaryAction>
             )}
         </ListItem>

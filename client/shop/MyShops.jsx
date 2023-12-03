@@ -19,12 +19,18 @@ import { Redirect, Link } from "react-router-dom";
 import DeleteShop from "./DeleteShop.jsx";
 
 const useStyles = makeStyles((theme) => ({
-  root: theme.mixins.gutters({
+  root: {
     maxWidth: 600,
     margin: "auto",
     padding: theme.spacing(3),
     marginTop: theme.spacing(5),
-  }),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
+    },
+  },
   title: {
     margin: `${theme.spacing(3)}px 0 ${theme.spacing(3)}px ${theme.spacing(
       1

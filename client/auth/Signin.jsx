@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Card,
   CardActions,
@@ -7,37 +7,37 @@ import {
   TextField,
   Typography,
   makeStyles,
-  Icon
+  Icon,
 } from "@material-ui/core";
-import { signin } from "./api-auth.js"; 
-import { list } from '../product/api-product.js'; 
-//import { Redirect } from 'react-router-dom';
-import auth from './../auth/auth-helper'; 
+import { signin } from "./api-auth.js";
+import { list } from "../product/api-product.js";
+import { Redirect } from "react-router-dom";
+import auth from "./../auth/auth-helper";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 600,
-    margin: 'auto',
-    textAlign: 'center',
+    margin: "auto",
+    textAlign: "center",
     marginTop: theme.spacing(5),
-    paddingBottom: theme.spacing(2)
+    paddingBottom: theme.spacing(2),
   },
   error: {
-    verticalAlign: 'middle'
+    verticalAlign: "middle",
   },
   title: {
     marginTop: theme.spacing(2),
-    color: theme.palette.openTitle
+    color: theme.palette.openTitle,
   },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: 300
+    width: 300,
   },
   submit: {
-    margin: 'auto',
-    marginBottom: theme.spacing(2)
-  }
+    margin: "auto",
+    marginBottom: theme.spacing(2),
+  },
 }));
 
 export default function Signin(props) {
@@ -46,16 +46,16 @@ export default function Signin(props) {
     email: "",
     password: "",
     error: "",
-    redirectToReferrer: false // Added redirectToReferrer here
+    redirectToReferrer: false, // Added redirectToReferrer here
   });
   const [products, setProducts] = useState([]); // State to store products
 
-  const handleChange = name => event => {
+  const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
   const loadProducts = () => {
-    list().then(data => {
+    list().then((data) => {
       if (data.error) {
         console.log(data.error);
       } else {
@@ -67,14 +67,15 @@ export default function Signin(props) {
   const clickSubmit = () => {
     const user = {
       email: values.email || undefined,
-      password: values.password || undefined
+      password: values.password || undefined,
     };
 
     signin(user).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error });
       } else {
-        auth.authenticate(data, () => { // Assuming you have an authenticate method in auth-helper
+        auth.authenticate(data, () => {
+          // Assuming you have an authenticate method in auth-helper
           setValues({ ...values, error: "", redirectToReferrer: true });
           loadProducts(); // Load products on successful sign-in
         });
@@ -82,7 +83,7 @@ export default function Signin(props) {
     });
   };
 
-  const { from } = props.location.state || { from: { pathname: '/' } };
+  const { from } = props.location.state || { from: { pathname: "/" } };
   if (values.redirectToReferrer) {
     return <Redirect to={from} />;
   }
@@ -90,7 +91,9 @@ export default function Signin(props) {
   return (
     <Card className={classes.card}>
       <CardContent>
-        <Typography variant="h5" className={classes.title}>Sign In</Typography>
+        <Typography variant="h5" className={classes.title}>
+          Sign In
+        </Typography>
         <TextField
           id="email"
           type="email"
@@ -119,7 +122,13 @@ export default function Signin(props) {
         )}
       </CardContent>
       <CardActions>
-        <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit} fullWidth>
+        <Button
+          color="primary"
+          variant="contained"
+          onClick={clickSubmit}
+          className={classes.submit}
+          fullWidth
+        >
           Submit
         </Button>
       </CardActions>
@@ -128,12 +137,18 @@ export default function Signin(props) {
       {products.length > 0 && (
         <div>
           <Typography variant="h6">Products</Typography>
-          {products.map(product => (
-            <Card key={product._id} style={{ margin: '10px' }}>
+          {products.map((product) => (
+            <Card key={product._id} style={{ margin: "10px" }}>
               <CardContent>
                 <Typography variant="h5">{product.name}</Typography>
                 <Typography variant="body2">{product.description}</Typography>
-                {product.image && <img src={product.image} alt={product.name} style={{ maxWidth: '100%', height: 'auto' }} />}
+                {product.image && (
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    style={{ maxWidth: "100%", height: "auto" }}
+                  />
+                )}
               </CardContent>
             </Card>
           ))}

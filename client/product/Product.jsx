@@ -61,6 +61,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Product({ match }) {
+  console.log("Productsss");
+  console.log(match);
   const classes = useStyles();
   const [product, setProduct] = useState({ shop: {} });
   const [suggestions, setSuggestions] = useState([]);

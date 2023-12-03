@@ -11,13 +11,19 @@ import { list } from "./api-shop.js";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-  root: theme.mixins.gutters({
+  root: {
     maxWidth: 600,
     margin: "auto",
     padding: theme.spacing(3),
     marginTop: theme.spacing(5),
     marginBottom: theme.spacing(3),
-  }),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
+    },
+  },
   title: {
     margin: `${theme.spacing(3)}px 0 ${theme.spacing(2)}px`,
     color: theme.palette.protectedTitle,

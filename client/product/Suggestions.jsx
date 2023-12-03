@@ -14,11 +14,17 @@ import CardMedia from "@material-ui/core/CardMedia";
 // import AddToCart from "./../cart/AddToCart";
 
 const useStyles = makeStyles((theme) => ({
-  root: theme.mixins.gutters({
+  root: {
     padding: theme.spacing(1),
     paddingBottom: 24,
     backgroundColor: "#80808024",
-  }),
+    paddingLeft: theme.spacing(2),
+    paddingRight: theme.spacing(2),
+    [theme.breakpoints.up("sm")]: {
+      paddingLeft: theme.spacing(3),
+      paddingRight: theme.spacing(3),
+    },
+  },
   title: {
     margin: `${theme.spacing(4)}px 0 ${theme.spacing(2)}px`,
     color: theme.palette.openTitle,

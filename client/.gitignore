@@ -5,3 +5,5 @@
 npm-debug.log
 .env
 yarn.lock
+package-lock.json
+/client/package-lock.json
