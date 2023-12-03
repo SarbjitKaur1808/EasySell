@@ -17,7 +17,7 @@ const ShopSchema = new mongoose.Schema({
     },
     owner: {
         type: mongoose.Schema.ObjectId,
-        ref: 'User'
+        ref: 'users'
     },
     updated: Date,
     created: {

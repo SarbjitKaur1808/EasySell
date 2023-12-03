@@ -2,24 +2,27 @@ import userRoutes from './server/routes/user.routes.js'
 import config from './config/config.js'
 import app from './server/express.js'
 import authRoutes from './server/routes/auth.routes.js'
-import shoproutes from './server/routes/shop.routes.js'
-
 import mongoose from 'mongoose'
+import shopRoutes from './server/routes/shop.routes.js'
+import productRoutes from './server/routes/product.routes.js'
+import orderRoutes from './server/routes/order.routes.js'
 
 mongoose.Promise = global.Promise
 mongoose.connect(config.mongoUri)
-.then(() => {
-    console.log("Connected to the database!");
-}).catch((error)=>{
-    console.log("Error in connecting to the database",error);
-})
+    .then(() => {
+        console.log("Connected to the database!");
+    }).catch((error) => {
+        console.log("Error in connecting to the database", error);
+    })
 mongoose.connection.on('error', () => {
     throw new Error(`unable to connect to database: ${config.mongoUri}`)
 })
 
 app.use('/api', userRoutes);
 app.use('/api', authRoutes);
-app.use('/api', shoproutes);
+app.use('/api', shopRoutes);
+app.use('/api', productRoutes);
+app.use('/api', orderRoutes);
 
 
 app.get("/", (req, res) => {
