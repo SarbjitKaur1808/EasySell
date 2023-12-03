@@ -19,9 +19,9 @@ router.route('/orders/user/:userId')
 router.route('/order/status_values')
     .get(orderCtrl.getStatusValues)
 
-//?
 router.route('/order/:shopId/cancel/:productId')
-    .put(authCtrl.requireSignin, shopCtrl.isOwner, productCtrl.increaseQuantity, orderCtrl.update)
+    //.put(authCtrl.requireSignin, shopCtrl.isOwner, productCtrl.increaseQuantity, orderCtrl.update)
+    .put(authCtrl.requireSignin, shopCtrl.isOwner, productCtrl.setProduct, productCtrl.increaseQuantity, orderCtrl.update)
 
 /*
 router.route('/order/:orderId/charge/:userId/:shopId')
