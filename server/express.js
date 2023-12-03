@@ -8,7 +8,9 @@ import Template from '../template.js'
 import path from 'path'
 import authRoutes from './routes/auth.routes.js'
 import userRoutes from './routes/user.routes.js'
+import shopRoutes from './routes/shop.routes.js'
 import productRoutes from './routes/product.routes.js'
+import orderRoutes from './routes/order.routes.js'
 
 const app = express()
 const CURRENT_WORKING_DIR = process.cwd()
@@ -22,6 +24,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/', authRoutes)
 app.use('/', userRoutes)
+app.use('/', shopRoutes)
+app.use('/', productRoutes)
+app.use('/', orderRoutes)
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cookieParser())

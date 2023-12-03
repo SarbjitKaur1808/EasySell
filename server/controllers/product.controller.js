@@ -91,6 +91,7 @@ const update = (req, res) => {
     })
 }
 
+/*
 const remove = async (req, res) => {
     try {
         let product = req.product
@@ -101,6 +102,25 @@ const remove = async (req, res) => {
         return res.status(400).json({
             error: errorHandler.getErrorMessage(err)
         })
+    }
+} */
+
+const remove = async (req, res) => {
+    try {
+        let productId = req.product._id;
+        let deletedProduct = await Product.findByIdAndDelete(productId);
+
+        if (!deletedProduct) {
+            return res.status(404).json({
+                error: "Product not found"
+            });
+        }
+        res.json({ message: "Product removed successfully!" });
+    } catch (err) {
+        console.error("Error occurred:", err);
+        return res.status(400).json({
+            error: errorHandler.getErrorMessage(err)
+        });
     }
 }
 

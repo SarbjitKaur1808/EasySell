@@ -1,15 +1,16 @@
 import mongoose from 'mongoose'
 const CartItemSchema = new mongoose.Schema({
-    product: { type: mongoose.Schema.ObjectId, ref: 'Product' },
+    product: { type: mongoose.Schema.ObjectId, ref: 'products' },
     quantity: Number,
-    shop: { type: mongoose.Schema.ObjectId, ref: 'Shop' },
+    shop: { type: mongoose.Schema.ObjectId, ref: 'shops' },
     status: {
         type: String,
         default: 'Not processed',
         enum: ['Not processed', 'Processing', 'Shipped', 'Delivered', 'Cancelled']
     }
 })
-const CartItem = mongoose.model('CartItem', CartItemSchema)
+const CartItem = mongoose.model('cartitems', CartItemSchema)
+
 const OrderSchema = new mongoose.Schema({
     products: [CartItemSchema],
     customer_name: {
@@ -30,13 +31,12 @@ const OrderSchema = new mongoose.Schema({
         zipcode: { type: String, required: 'Zip Code is required' },
         country: { type: String, required: 'Country is required' }
     },
-    payment_id: {},
     updated: Date,
     created: {
         type: Date,
         default: Date.now
     },
-    user: { type: mongoose.Schema.ObjectId, ref: 'User' }
+    user: { type: mongoose.Schema.ObjectId, ref: 'users' }
 })
 
 const Order = mongoose.model('orders', OrderSchema)

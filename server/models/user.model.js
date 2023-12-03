@@ -102,17 +102,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: 'Password is required'
     },
-    salt: String,
-    created: {
-        type: Date,
-        default: Date.now
-      },
-    seller: {
-    type: Boolean,
-    default: false
-    },
-    stripe_seller: {},
-    stripe_customer: {}
+    salt: String
 });
 
 UserSchema.virtual('password').set(function (password) {
