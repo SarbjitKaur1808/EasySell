@@ -14,18 +14,12 @@ import { listByShop } from "./api-order.js";
 import ProductOrderEdit from "./ProductOrderEdit";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  root: theme.mixins.gutters({
     maxWidth: 600,
     margin: "auto",
     padding: theme.spacing(3),
     marginTop: theme.spacing(5),
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      paddingLeft: theme.spacing(3),
-      paddingRight: theme.spacing(3),
-    },
-  },
+  }),
   title: {
     margin: `${theme.spacing(3)}px 0 ${theme.spacing(3)}px ${theme.spacing(
       1
@@ -44,7 +38,6 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: "#f8f8f8",
   },
 }));
-
 export default function ShopOrders({ match }) {
   const classes = useStyles();
   const [orders, setOrders] = useState([]);

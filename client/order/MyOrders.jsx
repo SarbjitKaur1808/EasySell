@@ -11,18 +11,12 @@ import { listByUser } from "./api-order.js";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  root: theme.mixins.gutters({
     maxWidth: 600,
     margin: "12px 24px",
     padding: theme.spacing(3),
     backgroundColor: "#3f3f3f0d",
-    paddingLeft: theme.spacing(2),
-    paddingRight: theme.spacing(2),
-    [theme.breakpoints.up("sm")]: {
-      paddingLeft: theme.spacing(3),
-      paddingRight: theme.spacing(3),
-    },
-  },
+  }),
   title: {
     margin: `${theme.spacing(2)}px 0 12px ${theme.spacing(1)}px`,
     color: theme.palette.openTitle,
