@@ -8,7 +8,7 @@ import userCtrl from '../controllers/user.controller.js'
 const router = express.Router()
 
 router.route('/orders/:userId')
-    .post(authCtrl.requireSignin, userCtrl.stripeCustomer, productCtrl.decreaseQuantity, orderCtrl.create)
+    .post(authCtrl.requireSignin, productCtrl.decreaseQuantity, orderCtrl.create)
 
 router.route('/orders/shop/:shopId')
     .get(authCtrl.requireSignin, shopCtrl.isOwner, orderCtrl.listByShop)
@@ -20,10 +20,12 @@ router.route('/order/status_values')
     .get(orderCtrl.getStatusValues)
 
 router.route('/order/:shopId/cancel/:productId')
-    .put(authCtrl.requireSignin, shopCtrl.isOwner, productCtrl.increaseQuantity, orderCtrl.update)
+    //.put(authCtrl.requireSignin, shopCtrl.isOwner, productCtrl.increaseQuantity, orderCtrl.update)
+    .put(authCtrl.requireSignin, shopCtrl.isOwner, productCtrl.setProduct, productCtrl.increaseQuantity, orderCtrl.update)
 
+/*
 router.route('/order/:orderId/charge/:userId/:shopId')
-    .put(authCtrl.requireSignin, shopCtrl.isOwner, userCtrl.createCharge, orderCtrl.update)
+    .put(authCtrl.requireSignin, shopCtrl.isOwner, orderCtrl.update)*/
 
 router.route('/order/status/:shopId')
     .put(authCtrl.requireSignin, shopCtrl.isOwner, orderCtrl.update)

@@ -3,6 +3,7 @@ import extend from 'lodash/extend.js'
 import errorHandler from './../helpers/dbErrorHandler.js'
 import formidable from 'formidable'
 import fs from 'fs'
+import { Order } from '../models/order.model.js'
 //import defaultImage from './../../client/assets/images/default.png'
 
 const create = (req, res, next) => {
@@ -91,6 +92,7 @@ const update = (req, res) => {
     })
 }
 
+/*
 const remove = async (req, res) => {
     try {
         let product = req.product
@@ -101,6 +103,25 @@ const remove = async (req, res) => {
         return res.status(400).json({
             error: errorHandler.getErrorMessage(err)
         })
+    }
+} */
+
+const remove = async (req, res) => {
+    try {
+        let productId = req.product._id;
+        let deletedProduct = await Product.findByIdAndDelete(productId);
+
+        if (!deletedProduct) {
+            return res.status(404).json({
+                error: "Product not found"
+            });
+        }
+        res.json({ message: "Product removed successfully!" });
+    } catch (err) {
+        console.error("Error occurred:", err);
+        return res.status(400).json({
+            error: errorHandler.getErrorMessage(err)
+        });
     }
 }
 
@@ -183,17 +204,60 @@ const decreaseQuantity = async (req, res, next) => {
     }
 }
 
-const increaseQuantity = async (req, res, next) => {
+const setProduct = async (req, res, next) => {
+    //console.log('setProduct middleware reached');
     try {
-        await Product.findByIdAndUpdate(req.product._id, { $inc: { "quantity": req.body.quantity } }, { new: true })
-            .exec()
-        next()
+        let product = await Product.findById(req.params.productId).exec();
+        if (!product) {
+            return res.status(404).json({
+                error: "Product not found"
+            });
+        }
+        req.product = product;
+        //console.log('setProduct middleware passed');
+        next();
+    } catch (error) {
+        return res.status(400).json({
+            error: errorHandler.getErrorMessage(error)
+        });
+    }
+};
+
+const increaseQuantity = async (req, res, next) => {
+    //console.log('increaseQuantity middleware reached');
+    try {
+        const productId = req.params.productId; // Assuming productId is passed in the route parameters
+        const shopId = req.params.shopId;       // Assuming shopId is also passed in the route parameters
+
+        // Find the order that contains the product to be canceled
+        const order = await Order.findOne({ 'products.product': productId, 'products.shop': shopId }).exec();
+        if (!order) {
+            return res.status(404).json({ error: "Order containing the product not found" });
+        }
+
+        // Find the cart item within the order and get its quantity
+        const cartItem = order.products.find(item => item.product.toString() === productId);
+        if (!cartItem) {
+            return res.status(404).json({ error: "CartItem not found" });
+        }
+
+        // Check if the cartItem is already cancelled
+        if (cartItem.status === 'Cancelled') {
+            return res.status(400).json({ error: "Product already cancelled" });
+        }
+
+        const quantityToIncrease = cartItem.quantity;
+
+        // Update the product quantity in the Product schema
+        await Product.findByIdAndUpdate(productId, { $inc: { "quantity": quantityToIncrease } }, { new: true }).exec();
+        // console.log('increaseQuantity middleware passed');
+        next();
     } catch (err) {
         return res.status(400).json({
             error: errorHandler.getErrorMessage(err)
-        })
+        });
     }
-}
+};
 
 export default {
     create,
@@ -209,5 +273,6 @@ export default {
     listCategories,
     list,
     decreaseQuantity,
-    increaseQuantity
+    increaseQuantity,
+    setProduct
 }

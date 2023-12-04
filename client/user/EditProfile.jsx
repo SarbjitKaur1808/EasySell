@@ -9,7 +9,7 @@ import {
   Icon,
   FormControlLabel,
   makeStyles,
-  Switch
+  Switch,
 } from "@material-ui/core";
 import auth from "./../auth/auth-helper";
 import { read, update } from "./api-user.js";
@@ -74,7 +74,7 @@ export default function EditProfile({ match }) {
           ...values,
           name: data.name,
           email: data.email,
-          seller: data.seller,
+          seller: data.seller || false,
         });
       }
     });
@@ -84,11 +84,13 @@ export default function EditProfile({ match }) {
   }, [match.params.userId]);
 
   const clickSubmit = () => {
+    console.log("Valuessss");
+    console.log(values.seller);
     const user = {
       name: values.name || undefined,
       email: values.email || undefined,
       password: values.password || undefined,
-      seller: values.seller || undefined,
+      seller: values.seller,
     };
     update(
       {
@@ -112,7 +114,7 @@ export default function EditProfile({ match }) {
     setValues({ ...values, [name]: event.target.value });
   };
   const handleCheck = (event, checked) => {
-    setValues({ ...values, seller: checked });
+    setValues({ ...values, seller: event.target.checked });
   };
 
   if (values.redirectToProfile) {
