@@ -42,13 +42,11 @@ export default function Home() {
                 <CardContent>
                   <Typography variant="h5">{product.name}</Typography>
                   <Typography variant="body2">{product.description}</Typography>
-                  {product.image && (
-                    <img
-                      src={renderImage(product.image)}
-                      alt={product.name}
-                      style={{ maxWidth: "100%", height: "auto" }}
-                    />
-                  )}
+                  <img
+                    src={"/api/product/image/" + product._id}
+                    alt={product.name}
+                    style={{ maxWidth: "100%", height: "auto" }}
+                  />
                 </CardContent>
               </Card>
             </Grid>
