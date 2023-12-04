@@ -29,35 +29,7 @@ export default function Home() {
     }
   };
 
-//   return (
-//     <div>
-//       <h1>Welcome</h1>
-//       {loading && <Typography>Loading products...</Typography>}
-//       {error && <Typography color="error">{error}</Typography>}
-//       {!loading && products.length > 0 && (
-//         <Grid container spacing={3}>
-//           {products.map((product) => (
-//             <Grid item xs={12} sm={6} md={4} key={product._id}>
-//               <Card style={{ margin: "10px" }}>
-//                 <CardContent>
-//                   <Typography variant="h5">{product.name}</Typography>
-//                   <Typography variant="body2">{product.description}</Typography>
-//                   <img
-//   src={"/api/product/image/" + product._id}
-//   alt={product.name}
-//   style={{ height: "300px", maxWidth: "100%", objectFit: "contain" }}
-// />
 
-
-//                 </CardContent>
-//               </Card>
-//             </Grid>
-//           ))}
-//         </Grid>
-//       )}
-//     </div>
-//   );
-// }
 
 return (
   <div>
