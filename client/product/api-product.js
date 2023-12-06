@@ -61,7 +61,6 @@ const remove = async (params, credentials) => {
 
 const listByShop = async (params, signal) => {
   try {
-    console.log("Calling listbyshop..")
     let response = await fetch('/api/products/by/'+params.shopId, {
       method: 'GET',
       signal: signal

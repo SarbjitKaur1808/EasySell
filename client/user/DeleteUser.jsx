@@ -11,7 +11,7 @@ import {
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { signout } from "../auth/api-auth.js";
-import auth from './../auth/auth-helper'
+import auth from "./../auth/auth-helper";
 import { remove } from "./api-user.js";
 import { Redirect } from "react-router-dom";
 
@@ -30,12 +30,12 @@ export default function DeleteUser(props) {
       },
       { t: jwt.token }
     ).then((data) => {
-      console.log("data removed", data);
+      // console.log("data removed", data);
       if (data && data.error) {
         console.log(data.error);
       } else {
         signout(() => console.log("deleted"));
-        auth.clearJWT(() =>"");
+        auth.clearJWT(() => "");
         setRedirect(true);
       }
     });

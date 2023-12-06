@@ -28,7 +28,6 @@ const list = async (signal) => {
 
 const listByOwner = async (params, credentials, signal) => {
   try {
-    console.log("Hereeee")
     let response = await fetch('/api/shops/by/'+params.userId, {
       method: 'GET',
       signal: signal,
