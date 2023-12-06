@@ -33,6 +33,7 @@ const signin = async (user) => {
 const signout = async () => {
     try {
         let response = await fetch('/api/auth/signout/', { method: 'GET' });
+        localStorage.clear();
         return await handleResponse(response);
     } catch (err) {
         console.error('Error during signout:', err);

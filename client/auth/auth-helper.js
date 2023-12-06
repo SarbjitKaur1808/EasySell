@@ -18,6 +18,7 @@ const auth = {
     clearJWT(cb) {
         if (typeof window !== "undefined")
             sessionStorage.removeItem('jwt')
+            localStorage.clear();
         cb()
         //optional
         signout().then((data) => {
