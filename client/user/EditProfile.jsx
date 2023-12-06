@@ -84,8 +84,6 @@ export default function EditProfile({ match }) {
   }, [match.params.userId]);
 
   const clickSubmit = () => {
-    console.log("Valuessss");
-    console.log(values.seller);
     const user = {
       name: values.name || undefined,
       email: values.email || undefined,

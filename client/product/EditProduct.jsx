@@ -95,7 +95,6 @@ export default function EditProduct({ match }) {
     };
   }, []);
   const clickSubmit = () => {
-    console.log("Update is working...");
     let productData = new FormData();
     values.name && productData.append("name", values.name);
     values.description && productData.append("description", values.description);

@@ -1,137 +1,63 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/core/styles";
-import Card from "@material-ui/core/Card";
-import Typography from "@material-ui/core/Typography";
-import Divider from "@material-ui/core/Divider";
-// import GridList from '@material-ui/core/GridList'
-import GridListTile from "@material-ui/core/GridListTile";
-import Icon from "@material-ui/core/Icon";
-import { list } from "./api-product.js";
-import Products from "./Products";
-import {
-  GridListTile,
-  ImageList,
-  ImageListItem,
-  ImageListTitle,
-} from "@material-ui/core";
+import { List, ListItem, ListItemText } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-    overflow: "hidden",
-    background: theme.palette.background.paper,
+    flexDirection: "row",
+    backgroundColor: theme.palette.background.paper,
+    borderBottom: "1px solid #ff4081",
   },
-  ImageList: {
-    flexWrap: "nowrap",
-    width: "100%",
-    transform: "translateZ(0)",
-  },
-  tileTitle: {
-    verticalAlign: "middle",
-    lineHeight: 2.5,
-    textAlign: "center",
-    fontSize: "1.35em",
-    margin: "0 4px 0 0",
-  },
-  card: {
-    margin: "auto",
-    marginTop: 20,
-  },
-  title: {
-    padding: `${theme.spacing(3)}px ${theme.spacing(2.5)}px ${theme.spacing(
-      2
-    )}px`,
-    color: theme.palette.openTitle,
-    backgroundColor: "#80808024",
-    fontSize: "1.1em",
-  },
-  icon: {
-    verticalAlign: "sub",
-    color: "#738272",
-    fontSize: "0.9em",
-  },
-  link: {
-    color: "#4d6538",
-    textShadow: "0px 2px 12px #ffffff",
+  categoryItem: {
     cursor: "pointer",
+    flexGrow: 1,
+    textAlign: "center",
+    padding: theme.spacing(2),
+    borderBottom: "1px solid #e0e0e0",
+    "&:hover": {
+      backgroundColor: theme.palette.action.hover,
+    },
+    "& .MuiListItemText-primary": {
+      // Increased specificity for targeting span inside ListItemText
+      fontWeight: "400", // Regular font weight by default
+    },
+    "&$selectedCategory .MuiListItemText-primary": {
+      // Increased specificity for selected item
+      color: "#ff4081", // Specific text color for selected item
+      fontWeight: "bold", // Bold font weight for selected item
+    },
   },
+  selectedCategory: {}, // Empty placeholder for the increase of specificity
 }));
-
-export default function Categories(props) {
+function Category(props) {
   const classes = useStyles();
-  const [products, setProducts] = useState([]);
-  const [selected, setSelected] = useState(props.categories[0]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
 
-  useEffect(() => {
-    const abortController = new AbortController();
-    const signal = abortController.signal;
-
-    list({
-      category: props.categories[0],
-    }).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setProducts(data);
-      }
-    });
-    return function cleanup() {
-      abortController.abort();
-    };
-  }, []);
-
-  const listbyCategory = (category) => (event) => {
-    setSelected(category);
-    list({
-      category: category,
-    }).then((data) => {
-      if (data.error) {
-        console.log(data.error);
-      } else {
-        setProducts(data);
-      }
-    });
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+    props.onSelect("", category);
+    props.setSelectedCategory(category); // Pass the selected category to the onSelect prop
   };
-
   return (
-    <div>
-      <Card className={classes.card}>
-        <Typography type="title" className={classes.title}>
-          Explore by category
-        </Typography>
-        <div className={classes.root}>
-          <ImageList className={classes.gridList} cols={4}>
-            {props.categories.map((tile, i) => (
-              <ImageListItem
-                key={i}
-                className={classes.tileTitle}
-                style={{
-                  height: "64px",
-                  backgroundColor:
-                    selected == tile
-                      ? "rgba(95, 139, 137, 0.56)"
-                      : "rgba(95, 124, 139, 0.32)",
-                }}
-              >
-                <span className={classes.link} onClick={listbyCategory(tile)}>
-                  {tile}{" "}
-                  <Icon className={classes.icon}>
-                    {selected == tile && "arrow_drop_down"}
-                  </Icon>
-                </span>
-              </ImageListItem>
-            ))}
-          </ImageList>
-        </div>
-        <Divider />
-        <Products products={products} searched={false} />
-      </Card>
+    <div className={classes.root}>
+      {props.categories.map((category, index) => (
+        <ListItem
+          key={index}
+          className={`${classes.categoryItem} ${
+            selectedCategory === category ? classes.selectedCategory : ""
+          }`}
+          onClick={() => handleCategoryClick(category)}
+        >
+          <ListItemText primary={category} className={classes.categoryName} />
+        </ListItem>
+      ))}
     </div>
   );
 }
-Categories.propTypes = {
+
+Category.propTypes = {
   categories: PropTypes.array.isRequired,
 };
+export default Category;

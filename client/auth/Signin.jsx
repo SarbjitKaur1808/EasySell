@@ -19,24 +19,42 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 600,
     margin: "auto",
     textAlign: "center",
-    marginTop: theme.spacing(5),
+    marginTop: theme.spacing(12),
     paddingBottom: theme.spacing(2),
-  },
-  error: {
-    verticalAlign: "middle",
+    backgroundColor: "#fff5f8", // Light pink background for the card
+    color: "#ff4081", // Pink color for text
   },
   title: {
     marginTop: theme.spacing(2),
-    color: theme.palette.openTitle,
+    color: "#ff4081", // Pink color for the title
   },
   textField: {
     marginLeft: theme.spacing(1),
     marginRight: theme.spacing(1),
-    width: 300,
+    width: "90%",
+    "& label.Mui-focused": {
+      color: "#ff4081", // Pink color for label focus
+    },
+    "& .MuiInput-underline:after": {
+      borderBottomColor: "#ff4081", // Pink color for underline focus
+    },
+    "& .MuiOutlinedInput-root": {
+      "&.Mui-focused fieldset": {
+        borderColor: "#ff4081", // Pink color for outlined focus
+      },
+    },
   },
   submit: {
-    margin: "auto",
-    marginBottom: theme.spacing(2),
+    margin: theme.spacing(3, 0, 2),
+    backgroundColor: "#ff4081", // Pink color for the button
+    color: "#ffffff", // White color text for the button
+    "&:hover": {
+      backgroundColor: "#e03565", // Darker pink color on hover
+    },
+  },
+  error: {
+    color: theme.palette.error.dark,
+    marginTop: theme.spacing(2),
   },
 }));
 
@@ -103,6 +121,7 @@ export default function Signin(props) {
           onChange={handleChange("email")}
           margin="normal"
           fullWidth
+          required
         />
         <TextField
           id="password"
@@ -113,6 +132,7 @@ export default function Signin(props) {
           onChange={handleChange("password")}
           margin="normal"
           fullWidth
+          required
         />
         {values.error && (
           <Typography component="p" color="error">

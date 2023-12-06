@@ -4,109 +4,162 @@ import {
   Toolbar,
   Typography,
   IconButton,
-  Button,
-} from "@material-ui/core";
-import HomeIcon from "@material-ui/icons/Home";
+  Badge,
+  Grid,
+} from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import auth from "./../auth/auth-helper";
 import { Link, withRouter } from "react-router-dom";
-import { WebLogo } from "../assets/images/images.js";
-
-import CartIcon from "@material-ui/icons/ShoppingCart";
-import Badge from "@material-ui/core/Badge";
 import cart from "./../cart/cart-helper";
 
-const isActive = (history, path) => {
-  if (history.location.pathname == path) return { color: "#bef67a" };
-  else return { color: "#ffffff" };
-};
-const isPartActive = (history, path) => {
-  if (history.location.pathname.includes(path)) return { color: "#bef67a" };
-  else return { color: "#ffffff" };
-};
+const isActive = (history, path) => ({
+  color: history.location.pathname === path ? " #ff4081" : "black",
+  fontWeight: history.location.pathname === path ? "bold" : "400", // Adjusted text weight
+  marginRight: 3, // Add right margin for spacing between menu items
+  padding: "0px 8px", // Add padding to create separation between menu items
+});
+
 const Menu = withRouter(({ history }) => (
-  <AppBar position="static">
+  <AppBar
+    position="static"
+    color="inherit"
+    sx={{
+      boxShadow: "none",
+      background: "transparent",
+      borderBottom: "2px solid  #ff4081",
+    }}
+  >
     <Toolbar>
-      <Typography variant="h6" color="inherit">
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <Typography variant="h6" color="inherit">
-            EASYSELL
-          </Typography>
-          <img
-            src={WebLogo}
-            height={50}
-            width={50}
-            alt="Logo"
-            style={{ marginLeft: "10px" }}
-          />
-        </div>
-      </Typography>
-      <div>
-        <Link to="/">
-          <IconButton aria-label="Home" style={isActive(history, "/")}>
-            <HomeIcon />
-          </IconButton>
-        </Link>
-        <Link to="/shops/all">
-          <Button style={isActive(history, "/shops/all")}>All Shops</Button>
-        </Link>
-        <Link to="/cart">
-          <Button style={isActive(history, "/cart")}>
-            Cart
-            <Badge
-              color="secondary"
-              invisible={false}
-              badgeContent={cart.itemTotal()}
-              style={{ marginLeft: "7px" }}
-              overlap="rectangular"
+      <Grid
+        container
+        spacing={2}
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        <Grid item xs={6} sx={{ display: "flex", alignItems: "center" }}>
+          <Link to="/" style={{ textDecoration: "none" }}>
+            <img src={"/assets/images/WebLogo.png"} height={50} alt="Logo" />
+          </Link>
+          <Link
+            to="/"
+            style={{
+              textDecoration: "none",
+            }}
+          >
+            <Typography
+              variant="h6"
+              sx={{ flexGrow: 1, ml: 2, color: "#ff4081", fontWeight: "bold" }}
             >
-              <CartIcon />
-            </Badge>
-          </Button>
-        </Link>
-      </div>
-      <div style={{ position: "absolute", right: "10px" }}>
-        <span style={{ float: "right" }}>
-          {!auth.isAuthenticated() && (
-            <span>
-              <Link to="/signup">
-                <Button style={isActive(history, "/signup")}>Sign up</Button>
-              </Link>
-              <Link to="/signin">
-                <Button style={isActive(history, "/signin")}>Sign In</Button>
-              </Link>
-            </span>
-          )}
+              EASYSELL
+            </Typography>
+          </Link>
+        </Grid>
+        <Grid
+          item
+          xs={6}
+          sx={{
+            display: "flex",
+            justifyContent: "flex-end",
+            alignItems: "center",
+          }}
+        >
+          <Link
+            to="/"
+            style={{
+              textDecoration: "none",
+              borderRight: "2px solid  #ff4081",
+            }}
+          >
+            <IconButton aria-label="Home" style={isActive(history, "/")}>
+              <HomeIcon />
+            </IconButton>
+          </Link>
+          <Link
+            to="/shops/all"
+            style={{
+              textDecoration: "none",
+              borderRight: "2px solid  #ff4081",
+            }}
+          >
+            <Typography style={isActive(history, "/shops/all")}>
+              All Shops
+            </Typography>
+          </Link>
+          <Link
+            to="/cart"
+            style={{
+              textDecoration: "none",
+              borderRight: "2px solid  #ff4081",
+            }}
+          >
+            <IconButton aria-label="Cart" style={isActive(history, "/cart")}>
+              <Badge badgeContent={cart.itemTotal()} color="secondary">
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
+          </Link>
+          {/* Authenticated user links */}
           {auth.isAuthenticated() && (
-            <span>
-              {auth.isAuthenticated().user && (
-                <Link to="/seller/shops">
-                  <Button style={isPartActive(history, "/seller/")}>
-                    SELL
-                  </Button>
-                </Link>
-              )}
-              <Link to={"/user/" + auth.isAuthenticated().user._id}>
-                <Button
+            <>
+              <Link
+                to={`/seller/shops`}
+                style={{
+                  textDecoration: "none",
+                  borderRight: "2px solid  #ff4081",
+                }}
+              >
+                <Typography style={isActive(history, "/seller/shops")}>
+                  SELL
+                </Typography>
+              </Link>
+              <Link
+                to={`/user/${auth.isAuthenticated().user._id}`}
+                style={{
+                  textDecoration: "none",
+                  borderRight: "2px solid  #ff4081",
+                }}
+              >
+                <Typography
                   style={isActive(
                     history,
-                    "/user/" + auth.isAuthenticated().user._id
+                    `/user/${auth.isAuthenticated().user._id}`
                   )}
                 >
                   My Profile
-                </Button>
+                </Typography>
               </Link>
-              <Button
-                color="inherit"
-                onClick={() => {
-                  auth.clearJWT(() => history.push("/"));
-                }}
+              <Typography
+                onClick={() => auth.clearJWT(() => history.push("/"))}
+                style={{ cursor: "pointer", color: "black", marginRight: 2 }}
               >
                 Sign out
-              </Button>
-            </span>
+              </Typography>
+            </>
           )}
-        </span>
-      </div>
+          {/* Non-authenticated user links */}
+          {!auth.isAuthenticated() && (
+            <>
+              <Link
+                to="/signup"
+                style={{
+                  textDecoration: "none",
+                  borderRight: "2px solid  #ff4081",
+                }}
+              >
+                <Typography style={isActive(history, "/signup")}>
+                  Sign up
+                </Typography>
+              </Link>
+              <Link to="/signin" style={{ textDecoration: "none" }}>
+                <Typography style={isActive(history, "/signin")}>
+                  Sign In
+                </Typography>
+              </Link>
+            </>
+          )}
+        </Grid>
+      </Grid>
     </Toolbar>
   </AppBar>
 ));
