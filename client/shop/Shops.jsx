@@ -53,7 +53,7 @@ export default function Shops() {
     const abortController = new AbortController();
     const signal = abortController.signal;
     list(signal).then((data) => {
-      if (data.error) {
+      if (data && data.error) {
         console.log(data.error);
       } else {
         setShops(data);
