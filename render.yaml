@@ -1,0 +1,5 @@
+# render.yaml or render.json
+services:
+  - name: web
+    buildCommand: npm install
+    startCommand: npm start
