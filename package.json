@@ -32,7 +32,7 @@
   },
   "scripts": {
     "dev": "concurrently 'vite' \"nodemon server.js\"",
-    "heroku-postbuild": "cd client && npm install && npm run build"
+    "heroku-postbuild": "cd client && npm install --legacy-peer-deps && npm run build"
 
   }
 }
