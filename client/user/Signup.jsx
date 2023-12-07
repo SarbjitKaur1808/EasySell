@@ -12,10 +12,10 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
+  Icon,
 } from "@material-ui/core";
-import Icon from "@material-ui/core/Icon";
-import { create } from "./api-user.js";
 import { Link } from "react-router-dom";
+import { create } from "./api-user.js";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -61,7 +61,6 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: "#ff4081", // Darken the pink color on hover
     },
   },
-  // Add styles for the image
   media: {
     height: 190,
     display: "block",
@@ -69,8 +68,8 @@ const useStyles = makeStyles((theme) => ({
     backgroundRepeat: "no-repeat",
     backgroundSize: "cover",
     backgroundPosition: "center",
-    // Image URL from the uploaded file
-    backgroundImage: `url(${"https://images.pexels.com/photos/5650026/pexels-photo-5650026.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2"})`,
+    backgroundImage:
+      'url("https://images.pexels.com/photos/5650026/pexels-photo-5650026.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2")',
   },
 }));
 
@@ -94,8 +93,8 @@ export default function Signup() {
     );
     return pattern.test(password);
   };
+
   const clickSubmit = () => {
-    // Check if the password is valid
     if (!isValidPassword(values.password)) {
       setValues({
         ...values,
@@ -117,11 +116,11 @@ export default function Signup() {
       }
     });
   };
+
   return (
     <div>
       <Card className={classes.card}>
         <div className={classes.media} />
-
         <CardContent>
           <Typography variant="h6" className={classes.title}>
             Sign Up
@@ -157,7 +156,7 @@ export default function Signup() {
             margin="normal"
             required
           />
-          <br />{" "}
+          <br />
           {values.error && (
             <Typography component="p" color="error">
               <Icon color="error" className={classes.error}>
@@ -182,10 +181,8 @@ export default function Signup() {
         open={values.open}
         onClose={(event, reason) => {
           if (reason === "backdropClick") {
-            // Do nothing on backdrop click
             return;
           }
-          // Handle closing the dialog for other reasons, like pressing the escape key
           setValues({ ...values, open: false });
         }}
       >

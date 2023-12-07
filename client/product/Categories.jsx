@@ -37,11 +37,19 @@ function Category(props) {
 
   const handleCategoryClick = (category) => {
     setSelectedCategory(category);
-    props.onSelect("", category);
+    props.onSelect("", category === "ALL" ? "" : category);
     props.setSelectedCategory(category); // Pass the selected category to the onSelect prop
   };
   return (
     <div className={classes.root}>
+      <ListItem
+        className={`${classes.categoryItem} ${
+          selectedCategory === "ALL" ? classes.selectedCategory : ""
+        }`}
+        onClick={() => handleCategoryClick("ALL")}
+      >
+        <ListItemText primary="ALL" />
+      </ListItem>
       {props.categories.map((category, index) => (
         <ListItem
           key={index}

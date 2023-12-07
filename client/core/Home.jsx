@@ -6,13 +6,43 @@ import {
   Grid,
   Box,
   CardMedia,
-} from "@mui/material";
+  makeStyles,
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
 import Search from "../product/Search";
 import Category from "../product/Categories";
 import { list, listCategories } from "../product/api-product";
 
+const useStyles = makeStyles((theme) => ({
+  card: {
+    maxWidth: 345,
+    margin: "auto",
+    boxShadow: theme.shadows[3],
+  },
+  cardMedia: {
+    height: 200,
+    objectFit: "contain",
+    background: "#f7f7f7",
+  },
+  productInfo: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: theme.spacing(2),
+  },
+  outOfStock: {
+    color: "red",
+  },
+  moreInfo: {
+    backgroundColor: theme.palette.secondary.main,
+    color: "#fff",
+    padding: "2px 5px",
+    borderRadius: 4,
+  },
+}));
+
 export default function Home() {
+  const classes = useStyles();
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -24,16 +54,11 @@ export default function Home() {
 
     let query = {};
 
-    // Check if both searchQuery and category are provided
-    if (searchQuery != "" && category != "") {
+    if (searchQuery !== "" && category !== "") {
       query = { search: searchQuery, category: category };
-    }
-    // Check if only searchQuery is provided
-    else if (searchQuery != "") {
+    } else if (searchQuery !== "") {
       query = { search: searchQuery, category: selectedCategory };
-    }
-    // Check if only category is provided
-    else if (category != "") {
+    } else if (category !== "") {
       query = { category: category };
     }
 
@@ -88,45 +113,36 @@ export default function Home() {
                 to={`/product/${product._id}`}
                 style={{ textDecoration: "none" }}
               >
-                <Card sx={{ maxWidth: 345, m: "auto", boxShadow: 3 }}>
+                <Card className={classes.card}>
                   <CardMedia
                     component="img"
                     height="200"
                     image={`/api/product/image/${product._id}`}
                     alt={product.name}
-                    sx={{ objectFit: "contain", background: "#f7f7f7" }}
+                    className={classes.cardMedia}
                   />
                   <CardContent>
                     <Typography gutterBottom variant="h6" component="div">
                       {product.name}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary">
+                    <Typography variant="body2" color="textSecondary">
                       {product.description}
                     </Typography>
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        mt: 2,
-                      }}
-                    >
+                    <Box className={classes.productInfo}>
                       <Typography variant="h6" color="primary">
                         ${product.price}
                       </Typography>
                       {product.quantity === 0 ? (
-                        <Typography variant="body2" sx={{ color: "red" }}>
+                        <Typography
+                          variant="body2"
+                          className={classes.outOfStock}
+                        >
                           Out of stock
                         </Typography>
                       ) : (
                         <Typography
                           variant="body2"
-                          sx={{
-                            bgcolor: "secondary.main",
-                            color: "#fff",
-                            p: "2px 5px",
-                            borderRadius: "4px",
-                          }}
+                          className={classes.moreInfo}
                         >
                           {product.quantity}+ More
                         </Typography>

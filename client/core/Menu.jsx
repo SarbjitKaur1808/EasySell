@@ -6,30 +6,47 @@ import {
   IconButton,
   Badge,
   Grid,
-} from "@mui/material";
-import HomeIcon from "@mui/icons-material/Home";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+  withStyles,
+  Button,
+} from "@material-ui/core";
+import HomeIcon from "@material-ui/icons/Home";
+import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import auth from "./../auth/auth-helper";
 import { Link, withRouter } from "react-router-dom";
 import cart from "./../cart/cart-helper";
 
-const isActive = (history, path) => ({
-  color: history.location.pathname === path ? " #ff4081" : "black",
-  fontWeight: history.location.pathname === path ? "bold" : "400", // Adjusted text weight
-  marginRight: 3, // Add right margin for spacing between menu items
-  padding: "0px 8px", // Add padding to create separation between menu items
+const styles = (theme) => ({
+  navBar: {
+    boxShadow: "none",
+    background: "transparent",
+    borderBottom: "2px solid #ff4081",
+  },
+  link: {
+    textDecoration: "none",
+    borderRight: "2px solid #ff4081",
+  },
+  title: {
+    flexGrow: 1,
+    marginLeft: theme.spacing(2),
+    color: "#ff4081",
+    fontWeight: "bold",
+  },
+  signOut: {
+    cursor: "pointer",
+    color: "black",
+    marginRight: 2,
+  },
 });
 
-const Menu = withRouter(({ history }) => (
-  <AppBar
-    position="static"
-    color="inherit"
-    sx={{
-      boxShadow: "none",
-      background: "transparent",
-      borderBottom: "2px solid  #ff4081",
-    }}
-  >
+const isActive = (history, path) => ({
+  color: history.location.pathname === path ? "#ff4081" : "black",
+  fontWeight: history.location.pathname === path ? "bold" : "400",
+  marginRight: 3,
+  padding: "0px 8px",
+});
+
+const Menu = ({ history, classes }) => (
+  <AppBar position="static" color="inherit" className={classes.navBar}>
     <Toolbar>
       <Grid
         container
@@ -37,20 +54,12 @@ const Menu = withRouter(({ history }) => (
         alignItems="center"
         justifyContent="space-between"
       >
-        <Grid item xs={6} sx={{ display: "flex", alignItems: "center" }}>
-          <Link to="/" style={{ textDecoration: "none" }}>
+        <Grid item xs={6} style={{ display: "flex", alignItems: "center" }}>
+          <Link to="/" className={classes.link} style={{ borderRight: "none" }}>
             <img src={"/assets/images/WebLogo.png"} height={50} alt="Logo" />
           </Link>
-          <Link
-            to="/"
-            style={{
-              textDecoration: "none",
-            }}
-          >
-            <Typography
-              variant="h6"
-              sx={{ flexGrow: 1, ml: 2, color: "#ff4081", fontWeight: "bold" }}
-            >
+          <Link to="/" className={classes.link} style={{ borderRight: "none" }}>
+            <Typography variant="h6" className={classes.title}>
               EASYSELL
             </Typography>
           </Link>
@@ -58,67 +67,43 @@ const Menu = withRouter(({ history }) => (
         <Grid
           item
           xs={6}
-          sx={{
+          style={{
             display: "flex",
             justifyContent: "flex-end",
             alignItems: "center",
           }}
         >
-          <Link
-            to="/"
-            style={{
-              textDecoration: "none",
-              borderRight: "2px solid  #ff4081",
-            }}
-          >
+          <Link to="/" className={classes.link}>
             <IconButton aria-label="Home" style={isActive(history, "/")}>
               <HomeIcon />
             </IconButton>
           </Link>
-          <Link
-            to="/shops/all"
-            style={{
-              textDecoration: "none",
-              borderRight: "2px solid  #ff4081",
-            }}
-          >
+          <Link to="/shops/all" className={classes.link}>
             <Typography style={isActive(history, "/shops/all")}>
-              All Shops
+              ALL SHOPS
             </Typography>
           </Link>
-          <Link
-            to="/cart"
-            style={{
-              textDecoration: "none",
-              borderRight: "2px solid  #ff4081",
-            }}
-          >
+          <Link to="/cart" className={classes.link}>
             <IconButton aria-label="Cart" style={isActive(history, "/cart")}>
-              <Badge badgeContent={cart.itemTotal()} color="secondary">
+              <Badge
+                badgeContent={cart.itemTotal()}
+                color="secondary"
+                overlap="rectangular"
+              >
                 <ShoppingCartIcon />
               </Badge>
             </IconButton>
           </Link>
-          {/* Authenticated user links */}
           {auth.isAuthenticated() && (
             <>
-              <Link
-                to={`/seller/shops`}
-                style={{
-                  textDecoration: "none",
-                  borderRight: "2px solid  #ff4081",
-                }}
-              >
+              <Link to={`/seller/shops`} className={classes.link}>
                 <Typography style={isActive(history, "/seller/shops")}>
                   SELL
                 </Typography>
               </Link>
               <Link
                 to={`/user/${auth.isAuthenticated().user._id}`}
-                style={{
-                  textDecoration: "none",
-                  borderRight: "2px solid  #ff4081",
-                }}
+                className={classes.link}
               >
                 <Typography
                   style={isActive(
@@ -129,31 +114,30 @@ const Menu = withRouter(({ history }) => (
                   My Profile
                 </Typography>
               </Link>
-              <Typography
+              {/* <Typography
                 onClick={() => auth.clearJWT(() => history.push("/"))}
-                style={{ cursor: "pointer", color: "black", marginRight: 2 }}
+                style={classes.signOut}
               >
                 Sign out
-              </Typography>
+              </Typography> */}
+              <Button
+                onClick={() => auth.clearJWT(() => history.push("/"))}
+                className={classes.signOut}
+              >
+                Sign out
+              </Button>
             </>
           )}
-          {/* Non-authenticated user links */}
           {!auth.isAuthenticated() && (
             <>
-              <Link
-                to="/signup"
-                style={{
-                  textDecoration: "none",
-                  borderRight: "2px solid  #ff4081",
-                }}
-              >
+              <Link to="/signup" className={classes.link}>
                 <Typography style={isActive(history, "/signup")}>
-                  Sign up
+                  SIGN UP
                 </Typography>
               </Link>
-              <Link to="/signin" style={{ textDecoration: "none" }}>
+              <Link to="/signin" className={classes.link}>
                 <Typography style={isActive(history, "/signin")}>
-                  Sign In
+                  SIGN IN
                 </Typography>
               </Link>
             </>
@@ -162,6 +146,6 @@ const Menu = withRouter(({ history }) => (
       </Grid>
     </Toolbar>
   </AppBar>
-));
+);
 
-export default Menu;
+export default withRouter(withStyles(styles)(Menu));
