@@ -6,6 +6,10 @@
   "repository": "https://github.com/SarbjitKaur1808/EasySell.git",
   "author": "SarbjitKaur1808 <sarbjitkaurjld@gmail.com>",
   "license": "MIT",
+  "engines": {
+    "node": "17.9.1",
+    "npm": "8.11.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.23.2",
     "@babel/preset-env": "^7.23.2",
@@ -31,8 +35,8 @@
     "react-router-dom": "^6.20.1"
   },
   "scripts": {
-    "dev": "concurrently 'vite' \"nodemon server.js\"",
-    "heroku-postbuild": "cd client && npm run dev"
-
+    "start": "node server.js",
+    "heroku-postbuild": "cd client && npm install --legacy-peer-deps  && npm run build",
+    "dev": "concurrently \"npm run start\" \"cd client && npm run dev\""
   }
 }
