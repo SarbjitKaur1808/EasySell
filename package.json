@@ -35,6 +35,5 @@
     "server": "nodemon ../server.js",
     "dev": "concurrently 'vite' \"nodemon server.js\"",
     "heroku-postbuild": "cd client && npm install --legacy-peer-deps && npm run build"
-
   }
 }
