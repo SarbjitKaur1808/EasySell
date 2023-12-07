@@ -18,13 +18,21 @@ mongoose.connection.on('error', () => {
     throw new Error(`unable to connect to database: ${config.mongoUri}`)
 })
 
+const path = require('path');
+const app = express();
+
 app.use('/api', userRoutes);
 app.use('/api', authRoutes);
 app.use('/api', shopRoutes);
 app.use('/api', productRoutes);
 app.use('/api', orderRoutes);
 
+app.use(express.static(path.join(__dirname, 'client/dist')));
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname + '/client/build/index.html'));
+  });
+  
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to User application." });
 });
