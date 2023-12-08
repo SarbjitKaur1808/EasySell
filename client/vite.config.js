@@ -31,6 +31,9 @@ export default defineConfig({
     rollupOptions: {
       input: "./src/main.jsx",
     },
+    server: {
+      port: 4000, // Example port, use the port your application is configured for
+    },
     outDir: '../dist/app',
   },
 });
