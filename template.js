@@ -12,7 +12,6 @@ export default () => {
     </head>
     <body>
     <div id="root">Welcome to EasySell</div> 
-    <script type="text/javascript" src="/dist/bundle.js"></script>
     </body>
     </html>` 
     }
