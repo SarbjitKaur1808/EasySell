@@ -1,0 +1,11 @@
+{
+  "assets/images/WebLogo.png": {
+    "file": "assets/images/WebLogo-acd14ca2.png",
+    "src": "assets/images/WebLogo.png"
+  },
+  "index.html": {
+    "file": "assets/js/index-d686b769.js",
+    "isEntry": true,
+    "src": "index.html"
+  }
+}

@@ -35,6 +35,26 @@ export default defineConfig({
       port: 4000, // Example port, use the port your application is configured for
     },
     chunkSizeWarningLimit: 1000, 
-    outDir: '../dist/app',
+    emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        
+        assetFileNames: ({name}) => {
+          if (/\.(gif|jpe?g|png|svg)$/.test(name ?? '')){
+              return 'assets/images/[name]-[hash][extname]';
+          }
+          
+          if (/\.css$/.test(name ?? '')) {
+              return 'assets/css/[name]-[hash][extname]';   
+          }
+ 
+          // default value
+          // ref: https://rollupjs.org/guide/en/#outputassetfilenames
+          return 'assets/[name]-[hash][extname]';
+        },
+      },
+    }
   },
 });
