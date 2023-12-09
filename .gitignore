@@ -1,6 +1,5 @@
 /node_modules/
 /client/node_modules/
-/dist/
 /data/
 npm-debug.log
 .env
@@ -101,7 +100,7 @@ out
 
 # Nuxt.js build / generate output
 .nuxt
-dist
+
 
 # Gatsby files
 .cache/
