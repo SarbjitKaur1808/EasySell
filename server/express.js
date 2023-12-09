@@ -15,11 +15,11 @@ import orderRoutes from './routes/order.routes.js'
 const app = express()
 const CURRENT_WORKING_DIR = process.cwd()
 
-app.get('/', (req, res) => {
-    res.status(200).send(Template())
-})
+// app.get('/', (req, res) => {
+//     res.status(200).send(Template())s
+// })
 
-app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'dist')))
+app.use('/dist', express.static(path.join(CURRENT_WORKING_DIR, 'client/dist')))
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/', authRoutes)
