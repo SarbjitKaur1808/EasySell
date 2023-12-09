@@ -34,6 +34,7 @@ export default defineConfig({
     server: {
       port: 4000, // Example port, use the port your application is configured for
     },
+    chunkSizeWarningLimit: 1000, 
     outDir: '../dist/app',
   },
 });
